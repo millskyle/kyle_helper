@@ -10,6 +10,7 @@ setup(name='kyle_helper',
       install_requires=[
          'inflect',
          'regex',
+         'argparse',
       ]
    )
 
