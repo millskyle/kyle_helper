@@ -12,5 +12,4 @@ args = parser.parse_args()
 
 update_result(args.file, {args.tag: args.value})
 
-`
 
