@@ -1,5 +1,6 @@
 from uuid import uuid4
 import logging
+import numpy as np
 
 def excel_to_array(s_, header_rows=1):
     s_ = s_.rstrip().lstrip()
@@ -14,4 +15,7 @@ def excel_to_array(s_, header_rows=1):
     header = np.genfromtxt(tmpfile, delimiter="\t", skip_footer=len(a), dtype=np.str)
 
     return header, a
+
+def spreadsheet_to_array(*args, **kwargs):
+    return excel_to_array(*args, **kwargs)
 
