@@ -2,14 +2,13 @@ import tensorflow as tf
 
 
 class EDNN_helper(object):
-    
     def __init__(self, L, f, c):
         assert f <= L/2, "Focus must be less than half the image size to use this implementation."
         assert (f + 2*c) <= L, "Total tile size (f+2c) is larger than input image."
         self.l = L
         self.f = f
         self.c = c
-    
+
     def __roll(self, in_, num, axis):
         """author: Kyle Mills"""
         D = tf.transpose(in_, perm=[axis, 1-axis])  #if axis=1, transpose first
