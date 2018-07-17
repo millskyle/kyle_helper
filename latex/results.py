@@ -1,3 +1,4 @@
+from __future__ import print_function
 import re
 import os
 import inflect
@@ -13,7 +14,7 @@ def parse_numbers(s_):
 
 
 
-def update_result(results_file, key_value, trailing_xspace=True, format_="{:.3f}"):
+def update_result(results_file, key_value, trailing_xspace=True, format_="{:.3f}", silent=False):
     #if the file doesn't exist, touch it.
     if not(os.path.isfile(results_file)):
         with open(results_file,'w') as F:
@@ -40,10 +41,14 @@ def update_result(results_file, key_value, trailing_xspace=True, format_="{:.3f}
         if pattern.search(s_new) is not None:
             #if the key is already in the file, substitute its old value with the new one
             s_new = pattern.sub(line_text, s_new)
+            if not silent:
+                print ("Key '{}' updated".format(vkey))
         else:
             #otherwise append the new newcommand line to the file
             line_text = '\\newcommand{\\' + str(vkey) + '}{' + format_.format(key_value[key]) + ending
             s_new = s_new  + line_text + '\n'
+            if not silent:
+                print ("Key '{}' added".format(vkey))
 
     #save the resulting file
     with open(results_file,'w') as F:
