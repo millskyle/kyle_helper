@@ -14,7 +14,7 @@ def parse_numbers(s_):
 
 
 
-def update_result(results_file, key_value, trailing_xspace=True, format_="{:.3f}", silent=False):
+def update_result(results_file, key_value, trailing_xspace=True, format_="{:.3f}", units=None, silent=False):
     #if the file doesn't exist, touch it.
     if not(os.path.isfile(results_file)):
         with open(results_file,'w') as F:
@@ -36,19 +36,24 @@ def update_result(results_file, key_value, trailing_xspace=True, format_="{:.3f}
         vkey = parse_numbers(key)
         #build a regex
         pattern = re.compile(r'\\newcommand\{\\' + str(vkey) + '\}\{.*(?:\})')
+        if units is not None:
+            units_ = "\\ \mathrm{" + units + "}"
+        else:
+            units_ = ""
+
         #decide on the new text
-        line_text = '\\\\newcommand{\\\\' + str(vkey) + '}{' + format_.format(key_value[key]) + ending
+        line_text = '\\\\newcommand{\\\\' + str(vkey) + '}{' + format_.format(key_value[key]) + units_ + ending
         if pattern.search(s_new) is not None:
             #if the key is already in the file, substitute its old value with the new one
             s_new = pattern.sub(line_text, s_new)
             if not silent:
-                print ("Key '{}' updated".format(vkey))
+                print ("Key updated: {}".format(line_text))
         else:
             #otherwise append the new newcommand line to the file
-            line_text = '\\newcommand{\\' + str(vkey) + '}{' + format_.format(key_value[key]) + ending
+            line_text = '\\newcommand{\\' + str(vkey) + '}{' + format_.format(key_value[key]) + units_ + ending
             s_new = s_new  + line_text + '\n'
             if not silent:
-                print ("Key '{}' added".format(vkey))
+                print ("Key added: {}".format(line_text))
 
     #save the resulting file
     with open(results_file,'w') as F:
