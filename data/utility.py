@@ -3,6 +3,25 @@ import logging
 import numpy as np
 
 def excel_to_array(s_, header_rows=1, return_header_dict=False):
+    """Takes a multi-line, tab-delimited string (e.g. copied from
+    Microsoft Excel and converts it to a numpy array.
+
+    Args:
+        s_ (string): A string representation of the data.
+            Can include a header and whitespace at the
+            beginning and end.
+        header_rows (int): default 1.  Number of initial rows
+            to consider the header
+        return_header_dict (boolean): Whether or not to return a dictionary
+            of the header keys/indices, e.g.  hd['x'] == 0
+
+
+        
+
+    """
+
+
+
     s_ = s_.rstrip().lstrip()
     tmpfile = "/tmp/{}".format(uuid4())
     with open(tmpfile, 'w') as F:
