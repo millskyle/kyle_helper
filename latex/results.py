@@ -4,13 +4,21 @@ import os
 import inflect
 
 def parse_numbers(s_):
-    p = inflect.engine()
-    numbers = re.findall('[0-9]+', s_)
-    for number in numbers:
-        s_ = s_.replace(number, p.number_to_words(int(number)))
-    s_ = re.sub('[- ]+','',s_)
+    _in = s_
+    _out = ""
+    while _in != _out:
+        _in = _out
 
-    return s_
+
+        p = inflect.engine()
+        numbers = re.findall('[0-9]+', _in)
+        for number in numbers:
+            s_ = _in.replace(number, p.number_to_words(int(number)))
+        s_ = re.sub('[- ]+','',s_)
+        s_ = re.sub('[/ ]+','',s_)
+        _out = s_
+
+    return _out
 
 
 
