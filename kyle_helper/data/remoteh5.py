@@ -1,6 +1,6 @@
 #import subprocess
 from hashlib import sha512
-from kyle_helper.data.utility import rsync
+from kyle_helper.kyle_helper.data.utility import rsync
 
 def copy_remote_h5(h5file, cache_dir='/tmp', offline=False):
    h = sha512()
