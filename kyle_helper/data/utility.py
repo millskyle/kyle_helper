@@ -46,13 +46,19 @@ def spreadsheet_to_array(*args, **kwargs):
 
 
 
-def rsync(flags='a', source=None, destination=None):
+def rsync(flags=['a'], source=None, destination=None):
+   if type(flags) == type("a"):
+       flags = " -".join(flags)
+
    assert source is not None and destination is not None, "Source and destination must be specified"
 
+   command = ["rsync",] + flags + [source, destination]
    if 'v' in flags:
        print("RSYNC:source:{}".format(source))
        print("RSYNC:destination:{}".format(destination))
-   p = subprocess.Popen(["rsync","-"+flags, source, destination], stdout=subprocess.PIPE, bufsize=1)
+       print("RSYNC: command:")
+       print("  ", " ".join(command))
+   p = subprocess.Popen(command, stdout=subprocess.PIPE, bufsize=1)
    for line in iter(p.stdout.readline, b''):
        print (line,)
    p.stdout.close()
